@@ -5,6 +5,14 @@ This project is scaffolded using **Vite** and built with **React**, and is perfe
 
 ---
 
+## Features
+- **Built with React and Vite**
+- **JSX for rendering components**
+- **Simple static todo list**
+- **ESLint + Prettier support**
+
+---
+
 ## Installation Instructions
 
 1. **Clone the repository:**
@@ -33,21 +41,13 @@ This project is scaffolded using **Vite** and built with **React**, and is perfe
    npm install
    ```
 
-4. **Running the Development Server**
+4. **Running the Development Server:**
+
    Once dependencies are installed, start the local development server:
-   `     npm run dev
-    `
+   ```
+   npm run dev
+   ```
    Then open your browser and go to the local URL shown in the terminal (typically http://localhost:5173).
-
-## Features
-
-**Built with React and Vite**
-
-**JSX for rendering components**
-
-**Simple static todo list**
-
-**ESLint + Prettier support**
 
 ## ESLint & Prettier Integration
 
@@ -55,21 +55,20 @@ This project is scaffolded using **Vite** and built with **React**, and is perfe
 
 This project uses the new ESLint Flat Config system via eslint.config.js.
 
-To ensure ESLint works properly:
+**To ensure ESLint works properly:**
 
-Install ESLint and React plugins (already in this project):
+**Install ESLint and React plugins** (already in this project):
 
 ```
 npm install --save-dev eslint eslint-plugin-react eslint-plugin-react-hooks
 ```
 
-Recommended ESLint extension for VS Code:
-
-Install the ESLint extension from the Extensions Marketplace.
+**Recommended ESLint extension for VS Code:**
+- Install the ESLint extension from the Extensions Marketplace.
 
 It will highlight issues and autofix on save (if enabled in settings).
 
-Run ESLint manually (optional):
+**Run ESLint manually** (optional):
 
 ```
 npx eslint .
@@ -77,13 +76,13 @@ npx eslint .
 
 ### Prettier Setup
 
-Install Prettier in the project:
+**Install Prettier** in the project:
 
 ```
 npm install --save-dev --save-exact prettier
 ```
 
-Create a Prettier config file in the root of your project named .prettierrc:
+**Create a Prettier config file** in the root of your project named .prettierrc:
 
 ```
 {
@@ -93,7 +92,7 @@ Create a Prettier config file in the root of your project named .prettierrc:
 }
 ```
 
-Install the Prettier VS Code extension:
+**Install the Prettier VS Code extension:**
 
 Search for “Prettier - Code formatter” in the Extensions panel.
 
