@@ -5,13 +5,17 @@ import React, { useState } from 'react';
 
 function App() {
   // Set statement
-  const [newTodo, setNewTodo] = useState('Study');
+  const [todoList, setTodoList] = useState([]);
+
+  function addTodo(title) {
+    const newTodo = { title, id: Date.now() };
+    setTodoList([...todoList, newTodo]);
+  }
 
   return (
     <div>
       <h1>My Todos</h1>
-      <TodoForm />
-      <p>{newTodo}</p>
+      <TodoForm onAddTodo={addTodo} />
       <TodoList />
     </div>
   );
