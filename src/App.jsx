@@ -1,7 +1,7 @@
 import './App.css';
 import TodoList from './TodoList.jsx';
 import TodoForm from './TodoForm.jsx';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function App() {
   // Set statement
