@@ -16,7 +16,11 @@ function App() {
     <div>
       <h1>My Todos</h1>
       <TodoForm onAddTodo={addTodo} />
-      <TodoList todoList={todoList} />
+      {todoList.length > 0 ? (
+        <TodoList todoList={todoList} />
+      ) : (
+        <p>Add todo above to get started</p>
+      )}
     </div>
   );
 }
