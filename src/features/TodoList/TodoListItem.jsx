@@ -10,12 +10,16 @@ function TodoListItem({ todo, onCompleteTodo }) {
     setIsEditing(false);
   }
 
+  function handleEdit(event) {
+    setWorkingTitle(event.target.value);
+  }
+
   return (
     <li>
       <form>
         {isEditing ? (
           <>
-            <TextInputWithLabel value={todo.title} />
+            <TextInputWithLabel value={workingTitle} onChange={handleEdit} />
             <button type="button" onClick={handleCancel}>
               Cancel
             </button>
