@@ -23,14 +23,16 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
 
   return (
     <li>
-      <form onSubmit={handleUpdate}>
+      <form>
         {isEditing ? (
           <>
             <TextInputWithLabel value={workingTitle} onChange={handleEdit} />
             <button type="button" onClick={handleCancel}>
               Cancel
             </button>
-            <button type="submit">Update</button>
+            <button type="button" onClick={handleUpdate}>
+              Update
+            </button>
           </>
         ) : (
           <>
