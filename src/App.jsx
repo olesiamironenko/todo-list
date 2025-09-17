@@ -254,7 +254,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="app-container">
       <h1>My Todos</h1>
       <TodoForm
         onAddTodo={addTodo}
