@@ -2,18 +2,7 @@ import './App.css';
 import TodoList from './features/TodoList/TodoList.jsx';
 import TodoForm from './features/TodoForm.jsx';
 import TodosViewForm from './features/TodosViewForm';
-import { useState, useEffect } from 'react';
-
-const encodeUrl = ({ url, sortField, sortDirection, queryString }) => {
-  let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
-  let searchQuery = '';
-
-  if (queryString) {
-    searchQuery = `&filterByFormula=SEARCH("${queryString}",+title)`;
-  }
-
-  return encodeURI(`${url}?${sortQuery}${searchQuery}`);
-};
+import { useState, useEffect, useCallback } from 'react';
 
 function App() {
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
@@ -31,9 +20,20 @@ function App() {
   const [sortDirection, setSortDirection] = useState('desc');
   const [queryString, setQueryString] = useState('');
 
+  const encodeUrl = useCallback(() => {
+    let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
+    let searchQuery = '';
+
+    if (queryString) {
+      searchQuery = `&filterByFormula=SEARCH("${queryString}",+title)`;
+    }
+
+    return encodeURI(`${url}?${sortQuery}${searchQuery}`);
+  }, [url, sortField, sortDirection, queryString]);
+
   useEffect(() => {
     const fetchTodos = async () => {
-      encodeUrl({ url, sortField, sortDirection, queryString });
+      encodeUrl();
       setIsLoading(true);
 
       const options = {
@@ -42,10 +42,7 @@ function App() {
       };
 
       try {
-        const resp = await fetch(
-          encodeUrl({ url, sortField, sortDirection, queryString }),
-          options
-        );
+        const resp = await fetch(encodeUrl(), options);
 
         if (!resp.ok) {
           throw new Error(`HTTP error ${resp.status}: ${resp.statusText}`);
@@ -100,10 +97,7 @@ function App() {
     try {
       setIsSaving(true);
 
-      const resp = await fetch(
-        encodeUrl({ url, sortField, sortDirection, queryString }),
-        options
-      );
+      const resp = await fetch(encodeUrl(), options);
 
       if (!resp.ok) {
         throw new Error(`HTTP error ${resp.status}: ${resp.statusText}`);
@@ -161,10 +155,7 @@ function App() {
     };
 
     try {
-      const resp = await fetch(
-        encodeUrl({ url, sortField, sortDirection, queryString }),
-        options
-      );
+      const resp = await fetch(encodeUrl(), options);
 
       if (!resp.ok) {
         throw new Error(`HTTP error ${resp.status}: ${resp.statusText}`);
@@ -229,10 +220,7 @@ function App() {
     };
 
     try {
-      const resp = await fetch(
-        encodeUrl({ url, sortField, sortDirection, queryString }),
-        options
-      );
+      const resp = await fetch(encodeUrl(), options);
 
       if (!resp.ok) {
         throw new Error(`HTTP error ${resp.status}: ${resp.statusText}`);
