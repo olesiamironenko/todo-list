@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import styles from '../shared/Form.module.css';
 
 function TodosViewForm({
   sortField,
@@ -26,15 +27,21 @@ function TodosViewForm({
   return (
     <form onSubmit={preventRefresh}>
       {/* Search section */}
-      <div>
-        <label htmlFor="search">Search todos:</label>
+      <div className={styles.form}>
+        <label className={styles.label} htmlFor="search">
+          Search todos:
+        </label>
         <input
           id="search"
           type="text"
           value={localQueryString}
           onChange={(e) => setLocalQueryString(e.target.value)}
         />
-        <button type="button" onClick={() => setLocalQueryString('')}>
+        <button
+          type="button"
+          onClick={() => setLocalQueryString('')}
+          disabled={localQueryString.trim() === ''}
+        >
           Clear
         </button>
       </div>

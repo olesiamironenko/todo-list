@@ -1,7 +1,11 @@
+import styles from './Form.module.css';
+
 function TextInputWithLabel({ elementId, labelText, onChange, ref, value }) {
   return (
     <>
-      <label htmlFor={elementId}>{labelText}</label>
+      <label className={styles.label} htmlFor={elementId}>
+        {labelText}
+      </label>
       <input
         type="text"
         id={elementId}

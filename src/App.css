@@ -30,39 +30,6 @@ h1 {
   text-align: center;
 }
 
-/* Common Button Styles */
-button {
-  font-family: inherit;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  margin: 0.25rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    transform 0.1s ease;
-  background-color: #16a34a; /* blue */
-  color: white;
-}
-
-/* Disabled button */
-button:disabled {
-  background-color: #d1d5db; /* light gray */
-  color: #6b7280;
-  cursor: not-allowed;
-}
-
-/* Hover effect — but only if NOT disabled */
-button:hover:not(:disabled) {
-  background-color: #15803d; /* darker green */
-}
-
-/* Active (press down) effect — only if NOT disabled */
-button:active:not(:disabled) {
-  transform: scale(0.97);
-}
-
 /* Common Input Styles */
 input[type='text'],
 input[type='search'],
@@ -93,18 +60,4 @@ hr {
 
 p {
   line-height: 1.5;
-}
-
-ul {
-  list-style-type: none;
-}
-
-/* App container */
-.app-container {
-  width: 100%;
-  max-width: 600px;
-  padding: 2rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
