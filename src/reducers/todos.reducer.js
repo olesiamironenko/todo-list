@@ -22,6 +22,21 @@ const actions = {
   clearError: 'clearError',
 };
 
+function reducer(state = initialState, action) {
+  switch (action.type) {
+    case actions.fetchTodos:
+      return {
+        ...state,
+      };
+    case actions.loadTodos:
+      return {
+        ...state,
+      };
+    default:
+      return state;
+  }
+}
+
 const initialState = {
   // all the states that was used with useState
   todoList: [], // was useState([])
