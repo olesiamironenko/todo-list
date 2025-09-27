@@ -1,0 +1,18 @@
+/* App container */
+.appContainer {
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.error {
+  border: 1px solid #ef4444; /* red border */
+  background: #fee2e2; /* light red background */
+  color: #b91c1c;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+}

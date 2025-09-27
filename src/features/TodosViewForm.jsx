@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import styles from '../shared/Form.module.css';
+import StyledButton from '../shared/Button.jsx';
 
 function TodosViewForm({
   sortField,
@@ -26,22 +28,31 @@ function TodosViewForm({
   return (
     <form onSubmit={preventRefresh}>
       {/* Search section */}
-      <div>
-        <label htmlFor="search">Search todos:</label>
+      <div className={styles.form}>
+        <label className={styles.label} htmlFor="search">
+          Search todos:
+        </label>
         <input
           id="search"
           type="text"
           value={localQueryString}
           onChange={(e) => setLocalQueryString(e.target.value)}
         />
-        <button type="button" onClick={() => setLocalQueryString('')}>
+        <StyledButton
+          type="button"
+          onClick={() => setLocalQueryString('')}
+          disabled={localQueryString.trim() === ''}
+        >
           Clear
-        </button>
+        </StyledButton>
       </div>
-      <div>
+      <div className={styles.form}>
         {/* Sort by */}
-        <label htmlFor="sortField">Sort by</label>
+        <label className={styles.label} htmlFor="sortField">
+          Sort by
+        </label>
         <select
+          className={styles.input}
           id="sortField"
           name="sortField"
           value={sortField}
@@ -52,8 +63,11 @@ function TodosViewForm({
         </select>
 
         {/* Direction */}
-        <label htmlFor="sortDirection">Direction</label>
+        <label className={styles.label} htmlFor="sortDirection">
+          Direction
+        </label>
         <select
+          className={styles.input}
           id="sortDirection"
           name="sortDirection"
           value={sortDirection}
