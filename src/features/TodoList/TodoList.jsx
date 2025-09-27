@@ -6,7 +6,7 @@ function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
   if (isLoading) {
     return <p>Todo list loading...</p>;
   }
-  if (todoList.lenght === 0) {
+  if (todoList.length === 0) {
     return <p>Add todo above to get started</p>;
   }
 
