@@ -53,6 +53,7 @@ function reducer(state = initialState, action) {
         isLoading: false,
       };
 
+    // ADD TODO flow (pessimistic)
     case actions.startRequest:
       return {
         ...state,
@@ -80,6 +81,42 @@ function reducer(state = initialState, action) {
         isLoading: false,
         isSaving: false,
       };
+
+    // OPTIMISTIC UI updates
+    case actions.revertTodo:
+    // fall-through to updateTodo
+    case actions.updateTodo: {
+      const updatedTodos = state.todoList.map((todo) =>
+        todo.id === action.editedTodo.id
+          ? { ...todo, ...action.editedTodo }
+          : todo
+      );
+
+      const updatedState = {
+        ...state,
+        todoList: updatedTodos,
+      };
+
+      if (action.error) {
+        updatedState.errorMessage = action.error.message;
+      }
+
+      return updatedState;
+    }
+
+    case actions.completeTodo: {
+      const updatedTodos = state.todoList.map((todo) =>
+        todo.id === action.id ? { ...todo, isCompleted: true } : todo
+      );
+
+      return {
+        ...state,
+        todoList: updatedTodos,
+      };
+    }
+
+    case actions.clearError:
+      return { ...state, errorMessage: '' };
 
     default:
       return state;
