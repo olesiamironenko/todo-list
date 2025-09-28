@@ -92,7 +92,7 @@ function App() {
     };
 
     try {
-      setIsSaving(true);
+      dispatch({ type: todoActions.startRequest });
 
       const resp = await fetch(encodeUrl(), options);
 
@@ -111,12 +111,12 @@ function App() {
         savedTodo.isCompleted = false;
       }
 
-      setTodoList([...todoList, savedTodo]);
+      dispatch({ type: todoActions.addTodo, savedTodo });
     } catch (error) {
       console.error('Error saving todo:', error);
-      setErrorMessage(error.message);
+      dispatch({ type: todoActions.setLoadError, error });
     } finally {
-      setIsSaving(false);
+      dispatch({ type: todoActions.endRequest });
     }
   };
 
@@ -124,11 +124,7 @@ function App() {
     const originalTodo = todoList.find((todo) => todo.id === editedTodo.id);
 
     // Optimistic UI update
-    setTodoList((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === editedTodo.id ? { ...todo, ...editedTodo } : todo
-      )
-    );
+    dispatch({ type: todoActions.updateTodo, editedTodo });
 
     const payload = {
       records: [
@@ -165,21 +161,14 @@ function App() {
         ...records[0].fields,
       };
 
-      setTodoList((prevTodos) =>
-        prevTodos.map((todo) =>
-          todo.id === updatedTodo.id ? updatedTodo : todo
-        )
-      );
+      dispatch({ type: todoActions.updateTodo, editedTodo: updatedTodo });
     } catch (error) {
       console.error('Error updating todo:', error);
-      setErrorMessage(error.message);
-
-      // Roll back on error
-      setTodoList((prevTodos) =>
-        prevTodos.map((todo) =>
-          todo.id === originalTodo.id ? originalTodo : todo
-        )
-      );
+      dispatch({
+        type: todoActions.updateTodo,
+        editedTodo: originalTodo,
+        error,
+      });
     }
   }
 
@@ -188,11 +177,7 @@ function App() {
     const originalTodo = todoList.find((todo) => todo.id === id);
 
     // Optimistic UI update: mark todo as completed immediately
-    setTodoList((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, isCompleted: true } : todo
-      )
-    );
+    dispatch({ type: todoActions.completeTodo, id });
 
     // Prepare payload for Airtable
     const payload = {
@@ -232,21 +217,14 @@ function App() {
         isCompleted: records[0].fields.isCompleted || false,
       };
 
-      setTodoList((prevTodos) =>
-        prevTodos.map((todo) =>
-          todo.id === updatedTodo.id ? updatedTodo : todo
-        )
-      );
+      dispatch({ type: todoActions.completeTodo, id: updatedTodo.id });
     } catch (error) {
       console.error('Error completing todo:', error);
-      setErrorMessage(error.message);
-
-      // Rollback UI to original state
-      setTodoList((prevTodos) =>
-        prevTodos.map((todo) =>
-          todo.id === originalTodo.id ? originalTodo : todo
-        )
-      );
+      dispatch({
+        type: todoActions.revertTodo,
+        editedTodo: originalTodo,
+        error,
+      });
     }
   }
 
@@ -280,7 +258,9 @@ function App() {
       {errorMessage && (
         <div className={styles.error}>
           <p>{errorMessage}</p>
-          <button onClick={() => setErrorMessage('')}>Dismiss</button>
+          <button onClick={() => dispatch({ type: todoActions.clearError })}>
+            Dismiss
+          </button>
         </div>
       )}
     </div>
