@@ -217,18 +217,14 @@ function App() {
   return (
     <div className={styles.appContainer}>
       <h1>My Todos</h1>
-      <TodoForm
-        onAddTodo={addTodo}
-        isSaving={isSaving}
-        setIsSaving={setIsSaving}
-      />
+      <TodoForm onAddTodo={addTodo} isSaving={todoState.isSaving} />
 
       <hr />
       <TodoList
-        todoList={filteredTodoList}
+        todoList={todoState.todoList.filter((todo) => !todo.isCompleted)}
         onCompleteTodo={completeTodo}
         onUpdateTodo={updateTodo}
-        isLoading={isLoading}
+        isLoading={todoState.isLoading}
       />
 
       <hr />
@@ -243,7 +239,7 @@ function App() {
 
       {errorMessage && (
         <div className={styles.error}>
-          <p>{errorMessage}</p>
+          <p>{todoState.errorMessage}</p>
           <button onClick={() => dispatch({ type: todoActions.clearError })}>
             Dismiss
           </button>
