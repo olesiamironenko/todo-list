@@ -2,20 +2,23 @@ import './App.css';
 import TodoList from './features/TodoList/TodoList.jsx';
 import TodoForm from './features/TodoForm.jsx';
 import TodosViewForm from './features/TodosViewForm';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useReducer } from 'react';
 import styles from './App.module.css';
+import {
+  reducer as todosReducer,
+  actions as todoActions,
+  initialState as initialTodosState,
+} from './reducers/todos.reducer';
 
 function App() {
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
   // Set statement
-  const [todoList, setTodoList] = useState([]);
-  const filteredTodoList = todoList.filter((todo) => !todo.isCompleted);
+  const [todoState, dispatch] = useReducer(todosReducer, initialTodosState);
+  const { todoList, isLoading, isSaving, errorMessage } = todoState;
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const filteredTodoList = todoList.filter((todo) => !todo.isCompleted);
 
   const [sortField, setSortField] = useState('createdTime');
   const [sortDirection, setSortDirection] = useState('desc');
@@ -35,7 +38,7 @@ function App() {
   useEffect(() => {
     const fetchTodos = async () => {
       encodeUrl();
-      setIsLoading(true);
+      dispatch({ type: todoActions.fetchTodos });
 
       const options = {
         method: 'GET',
@@ -53,26 +56,19 @@ function App() {
         console.log('Fetched todos:', records);
 
         // Map Airtable records into thhe sshape the App expects
-        setTodoList(
-          records.map((record) => {
-            const todo = {
-              id: record.id, // top level in Airtable
-              ...record.fields,
-            };
-            if (!todo.isCompleted) {
-              todo.isCompleted = false;
-            }
-            return todo;
-          })
-        );
+        dispatch({
+          type: todoActions.loadTodos,
+          records,
+        });
       } catch (error) {
-        setErrorMessage(error.message);
-      } finally {
-        setIsLoading(false);
+        dispatch({
+          type: todoActions.setLoadError,
+          error,
+        });
       }
     };
     fetchTodos();
-  }, [url, sortField, sortDirection, queryString, token]);
+  }, [url, sortField, sortDirection, queryString, token, encodeUrl]);
 
   const addTodo = async (newTodo) => {
     const payload = {
