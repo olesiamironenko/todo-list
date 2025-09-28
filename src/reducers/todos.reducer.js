@@ -133,4 +133,4 @@ const initialState = {
 };
 
 // named export
-export { initialState };
+export { initialState, actions, reducer };

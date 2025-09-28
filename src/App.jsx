@@ -16,9 +16,7 @@ function App() {
 
   // Set statement
   const [todoState, dispatch] = useReducer(todosReducer, initialTodosState);
-  const { todoList, isLoading, isSaving, errorMessage } = todoState;
-
-  const filteredTodoList = todoList.filter((todo) => !todo.isCompleted);
+  const { todoList, errorMessage } = todoState;
 
   const [sortField, setSortField] = useState('createdTime');
   const [sortDirection, setSortDirection] = useState('desc');
@@ -111,7 +109,7 @@ function App() {
         savedTodo.isCompleted = false;
       }
 
-      dispatch({ type: todoActions.addTodo, savedTodo });
+      dispatch({ type: todoActions.addTodo, payload: savedTodo });
     } catch (error) {
       console.error('Error saving todo:', error);
       dispatch({ type: todoActions.setLoadError, error });
