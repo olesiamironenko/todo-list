@@ -155,15 +155,10 @@ function App() {
       }
 
       const { records } = await resp.json();
-
-      const updatedTodo = {
-        id: records[0].id,
-        ...records[0].fields,
-      };
-
-      dispatch({ type: todoActions.updateTodo, editedTodo: updatedTodo });
     } catch (error) {
       console.error('Error updating todo:', error);
+
+      // Roll back to original on error
       dispatch({
         type: todoActions.updateTodo,
         editedTodo: originalTodo,
@@ -209,15 +204,6 @@ function App() {
       }
 
       const { records } = await resp.json();
-
-      // Replace todo with Airtable response
-      const updatedTodo = {
-        id: records[0].id,
-        title: records[0].fields.title || '',
-        isCompleted: records[0].fields.isCompleted || false,
-      };
-
-      dispatch({ type: todoActions.completeTodo, id: updatedTodo.id });
     } catch (error) {
       console.error('Error completing todo:', error);
       dispatch({
