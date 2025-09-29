@@ -3,7 +3,7 @@ import TextInputWithLabel from '../shared/TextInputWithLabel';
 import styles from '../shared/Form.module.css';
 import StyledButton from '../shared/Button.jsx';
 
-function TodoForm({ onAddTodo, isSaving, setIsSaving }) {
+function TodoForm({ onAddTodo, isSaving }) {
   const todoTitleInput = useRef('');
   const [workingTodoTitle, setWorkingTodoTitle] = useState('');
 
@@ -18,12 +18,7 @@ function TodoForm({ onAddTodo, isSaving, setIsSaving }) {
   }
 
   return (
-    <form
-      className={styles.form}
-      onSubmit={handleAddTodo}
-      isSaving={isSaving}
-      setIsSaving={setIsSaving}
-    >
+    <form className={styles.form} onSubmit={handleAddTodo}>
       <TextInputWithLabel
         labelText="Todo:"
         elementId="todoTitle"
@@ -31,7 +26,7 @@ function TodoForm({ onAddTodo, isSaving, setIsSaving }) {
         value={workingTodoTitle}
         onChange={(e) => setWorkingTodoTitle(e.target.value)}
       />
-      <StyledButton type="submit" disabled={!workingTodoTitle}>
+      <StyledButton type="submit" disabled={!workingTodoTitle || isSaving}>
         {isSaving ? 'Saving...' : 'Add Todo'}
       </StyledButton>
     </form>
