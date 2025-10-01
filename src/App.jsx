@@ -7,21 +7,38 @@ import {
   initialState as initialTodosState,
 } from './reducers/todos.reducer';
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import TodosPage from './pages/TodosPage';
+import Header from './shared/Header';
 
 function App() {
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
   // Set statement
+  // Reducer state
   const [todoState, dispatch] = useReducer(todosReducer, initialTodosState);
   const { todoList, errorMessage, isSaving, isLoading } = todoState;
 
+  // UI state
   const [sortField, setSortField] = useState('createdTime');
   const [sortDirection, setSortDirection] = useState('desc');
   const [queryString, setQueryString] = useState('');
+
+  // Page title
+  const location = useLocation();
+  const [pageTitle, setPageTitle] = useState('Todo List');
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setPageTitle('Todo List');
+    } else if (location.pathname === '/about') {
+      setPageTitle('About');
+    } else {
+      setPageTitle('Not Found');
+    }
+  }, [location]);
 
   const encodeUrl = useCallback(() => {
     let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
@@ -215,7 +232,7 @@ function App() {
 
   return (
     <div className={styles.appContainer}>
-      <h1>My Todos</h1>
+      <Header title={pageTitle} />
       <Routes>
         <Route
           path="/"
