@@ -12,6 +12,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './shared/Header';
 import TodosPage from './pages/TodosPage';
 import About from './pages/About';
+import NotFound from './pages/NotFound';
 
 function App() {
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
@@ -257,7 +258,7 @@ function App() {
           }
         />
         <Route path="/about" element={<About />} />
-        <Route path="*" element={<h1>Not Found</h1>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
