@@ -8,7 +8,7 @@ function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
   // Pagination
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 15;
 
   // Get current page number from the URL, or default to 1
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
