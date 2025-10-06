@@ -38,12 +38,14 @@ function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
 
   // Protect against invalid or out-of-range page numbers
   useEffect(() => {
-    if (
-      isNaN(currentPage) || // not a number, e.g., "moose"
-      currentPage < 1 || // too low
-      currentPage > totalPages // too high
-    ) {
-      navigate('/'); // redirect to homepage
+    if (totalPages > 0) {
+      if (
+        isNaN(currentPage) || // not a number, e.g., "moose"
+        currentPage < 1 || // too low
+        currentPage > totalPages // too high
+      ) {
+        navigate('/'); // redirect to homepage
+      }
     }
   }, [currentPage, totalPages, navigate]);
 
