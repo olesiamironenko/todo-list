@@ -1,7 +1,7 @@
-import React from 'react';
+import { useEffect } from 'react';
 import TodoListItem from './TodoListItem.jsx';
 import styles from './TodoList.module.css';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import StyledButton from '../../shared/Button.jsx';
 
 function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
@@ -9,6 +9,8 @@ function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const itemsPerPage = 15;
+
+  const navigate = useNavigate();
 
   // Get current page number from the URL, or default to 1
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
@@ -22,6 +24,28 @@ function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
 
   // Calculate total pages
   const totalPages = Math.ceil(todoList.length / itemsPerPage);
+
+  // Pagination Handlers ---
+  const handlePreviousPage = () => {
+    const newPage = Math.max(currentPage - 1, 1);
+    setSearchParams({ page: newPage });
+  };
+
+  const handleNextPage = () => {
+    const newPage = Math.min(currentPage + 1, totalPages);
+    setSearchParams({ page: newPage });
+  };
+
+  // Protect against invalid or out-of-range page numbers
+  useEffect(() => {
+    if (
+      isNaN(currentPage) || // not a number, e.g., "moose"
+      currentPage < 1 || // too low
+      currentPage > totalPages // too high
+    ) {
+      navigate('/'); // redirect to homepage
+    }
+  }, [currentPage, totalPages, navigate]);
 
   if (isLoading) {
     return <p>Todo list loading...</p>;
@@ -44,11 +68,8 @@ function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
       </ul>
 
       {/* Pagination controls */}
-      <div className={styles.pagination}>
-        <StyledButton
-          disabled={currentPage === 1}
-          onClick={() => setSearchParams({ page: currentPage - 1 })}
-        >
+      <div className={styles.paginationControls}>
+        <StyledButton disabled={currentPage === 1} onClick={handlePreviousPage}>
           Previous
         </StyledButton>
 
@@ -58,7 +79,7 @@ function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
 
         <StyledButton
           disabled={currentPage === totalPages}
-          onClick={() => setSearchParams({ page: currentPage + 1 })}
+          onClick={handleNextPage}
         >
           Next
         </StyledButton>

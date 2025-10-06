@@ -1,4 +1,4 @@
-.pagination {
+.paginationControls {
   display: flex;
   justify-content: center; /* centers the whole group horizontally */
   align-items: center; /* aligns buttons and text vertically */
