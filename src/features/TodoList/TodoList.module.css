@@ -1,5 +1,18 @@
+.pagination {
+  display: flex;
+  justify-content: center; /* centers the whole group horizontally */
+  align-items: center; /* aligns buttons and text vertically */
+  gap: 1rem; /* adds spacing between buttons and text */
+  margin: 1rem; /* space above pagination */
+}
+
 .list {
   list-style-type: none; /* remove bullets */
   padding: 0; /* remove default ul padding */
   margin: 0;
+}
+
+.pagination span {
+  font-size: 0.9rem;
+  color: #374151;
 }
