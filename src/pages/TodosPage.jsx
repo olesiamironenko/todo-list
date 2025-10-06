@@ -22,6 +22,13 @@ function TodosPage({
   return (
     <div>
       <TodoForm onAddTodo={addTodo} isSaving={isSaving} />
+      <TodoList
+        todoList={todoList}
+        onUpdateTodo={updateTodo}
+        onCompleteTodo={completeTodo}
+        onRevertTodo={revertTodo}
+        isLoading={isLoading}
+      />
       <TodosViewForm
         queryString={queryString}
         setQueryString={setQueryString}
@@ -31,13 +38,6 @@ function TodosPage({
         setSortDirection={setSortDirection}
         errorMessage={errorMessage}
         clearError={clearError}
-      />
-      <TodoList
-        todoList={todoList}
-        onUpdateTodo={updateTodo}
-        onCompleteTodo={completeTodo}
-        onRevertTodo={revertTodo}
-        isLoading={isLoading}
       />
     </div>
   );
