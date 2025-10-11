@@ -83,7 +83,15 @@ function reducer(state = initialState, action) {
       };
 
     // OPTIMISTIC UI updates
-    case actions.revertTodo:
+    case actions.revertTodo: {
+      const revertedTodos = state.todoList.map((todo) =>
+        todo.id === action.editedTodo.id
+          ? { ...todo, ...action.editedTodo } // restore old state
+          : todo
+      );
+      return { ...state, todoList: revertedTodos };
+    }
+
     // fall-through to updateTodo
     case actions.updateTodo: {
       // revertTodo and updateTodo shared logic
@@ -107,7 +115,9 @@ function reducer(state = initialState, action) {
 
     case actions.completeTodo: {
       const updatedTodos = state.todoList.map((todo) =>
-        todo.id === action.id ? { ...todo, isCompleted: true } : todo
+        todo.id === action.id
+          ? { ...todo, isCompleted: !todo.isCompleted } // toggle locally
+          : todo
       );
 
       return {

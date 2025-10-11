@@ -1,7 +1,6 @@
 /* App container */
 .appContainer {
-  width: 100%;
-  max-width: 600px;
+  width: 600px;
   padding: 2rem;
   background: white;
   border-radius: 12px;
